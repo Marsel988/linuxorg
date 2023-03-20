@@ -3,11 +3,7 @@ package linuxorg;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.*;
 import org.junit.jupiter.api.DisplayName;
-import org.openqa.selenium.BuildInfo;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import pages.SearchPage;
@@ -31,7 +27,6 @@ public class TestClass {
 //        options.setExperimentalOption("useAutomationExtension", false);
 //        driver = new ChromeDriver(options);
         driver = new RemoteWebDriver(new URL("http://localhost:4444"), options);
-
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
     }
