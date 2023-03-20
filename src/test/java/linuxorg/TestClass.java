@@ -29,12 +29,13 @@ public class TestClass {
         driver = new RemoteWebDriver(new URL("http://localhost:4444"), options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+        driver.get("https://www.linux.org.ru/");
     }
 
     @Test
     @DisplayName("Проверка заголовка")
     public void checkTest() {
-        StartPage startPage = new StartPage(driver);
+//        StartPage startPage = new StartPage(driver);
         String actualTitle = driver.getTitle();
         String expectedTitle1 = "LINUX.ORG.RU — Русская информация об ОС Linux";
         Assert.assertEquals(actualTitle, expectedTitle1);

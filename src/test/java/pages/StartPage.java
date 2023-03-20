@@ -12,7 +12,6 @@ public class StartPage {
 
     public StartPage(WebDriver webDriver) {
         this.webDriver = webDriver;
-        webDriver.get(ConfigSetup.getProperty("startPage"));
         PageFactory.initElements(webDriver, this);
     }
 

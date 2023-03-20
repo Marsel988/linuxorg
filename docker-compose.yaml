@@ -1,0 +1,30 @@
+version: '3.4'
+services:
+  bla:
+    container_name: bla_container
+    hostname: 'bla'
+    image: selenium/standalone-chrome:latest
+    networks:
+      - test_net
+    privileged: true
+    shm_size: 2g
+    ports:
+      - 4444:4444
+    volumes:
+      - /dev/shm:/dev/shm
+
+#  worker:
+#    container_name: worker_container
+#    image: my:latest
+#    networks:
+#      - test_net
+#    entrypoint: ./run.sh
+#    depends_on:
+#      - bla
+
+networks:
+  test_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
