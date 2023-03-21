@@ -3,39 +3,55 @@ package linuxorg;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.*;
 import org.junit.jupiter.api.DisplayName;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverInfo;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import pages.SearchPage;
 import pages.StartPage;
 import pages.VotingPage;
-
+import org.openqa.selenium.remote.DesiredCapabilities;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public class TestClass {
+public class TestClass implements WebDriver{
     private static WebDriver driver;
 
     @BeforeClass
-    public static void setup() throws MalformedURLException {
+    public static void setup() {
 //        System.setProperty("webdriver.http.factory", "jdk-http-client");
-//        System.setProperty("webdriver.chrome.driver", ConfigSetup.getProperty("chromedriver"));
-//        System.setProperty("webdriver.chrome.driver", "/home/chromedriver");
-//        WebDriverManager.chromedriver().setup();
-        ChromeOptions options = new ChromeOptions();
-//        options.setExperimentalOption("useAutomationExtension", false);
-//        driver = new ChromeDriver(options);
-        driver = new RemoteWebDriver(new URL("http://localhost:4444"), options);
+//        System.setProperty("webdriver.chrome.driver", "/tmp/src/test/java/resources/linux/110/chromedriver");  // linux
+//        System.setProperty("webdriver.chrome.driver", "src/test/java/resources/windows/chromedriver.exe");  // windows
+        ChromeOptions chrome_options = new ChromeOptions();
+        chrome_options.addArguments("--no-sandbox");
+        chrome_options.addArguments("--headless");
+        chrome_options.addArguments("--disable-gpu");
+        chrome_options.addArguments("--disable-dev-shm-usage");
+        try {
+//        driver = new RemoteWebDriver(new URL("http://bla:4444"), options);
+//            driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), chrome_options);
+            driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), chrome_options);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+//        driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), options);
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-        driver.get("https://www.linux.org.ru/");
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
     @Test
     @DisplayName("Проверка заголовка")
     public void checkTest() {
-//        StartPage startPage = new StartPage(driver);
+        StartPage startPage = new StartPage(driver);
         String actualTitle = driver.getTitle();
         String expectedTitle1 = "LINUX.ORG.RU — Русская информация об ОС Linux";
         Assert.assertEquals(actualTitle, expectedTitle1);
@@ -115,7 +131,7 @@ public class TestClass {
 
     @Test
     @DisplayName("Проверка работы поиска")
-    public void checkeSearchJob() {
+    public void checkeSearchOperation() {
         StartPage startPage = new StartPage(driver);
         String searchRequest = startPage.getFirstNewsTitle();
         startPage.clickSearch();
@@ -129,5 +145,70 @@ public class TestClass {
     @AfterClass
     public static void finish() {
         driver.quit();
+    }
+
+    @Override
+    public void get(String url) {
+
+    }
+
+    @Override
+    public String getCurrentUrl() {
+        return null;
+    }
+
+    @Override
+    public String getTitle() {
+        return null;
+    }
+
+    @Override
+    public List<WebElement> findElements(By by) {
+        return null;
+    }
+
+    @Override
+    public WebElement findElement(By by) {
+        return null;
+    }
+
+    @Override
+    public String getPageSource() {
+        return null;
+    }
+
+    @Override
+    public void close() {
+
+    }
+
+    @Override
+    public void quit() {
+
+    }
+
+    @Override
+    public Set<String> getWindowHandles() {
+        return null;
+    }
+
+    @Override
+    public String getWindowHandle() {
+        return null;
+    }
+
+    @Override
+    public TargetLocator switchTo() {
+        return null;
+    }
+
+    @Override
+    public Navigation navigate() {
+        return null;
+    }
+
+    @Override
+    public Options manage() {
+        return null;
     }
 }

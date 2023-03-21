@@ -1,26 +1,48 @@
-version: '3.4'
+version: "3.9"
 services:
+
   bla:
     container_name: bla_container
     hostname: 'bla'
-    image: selenium/standalone-chrome:latest
+    image: selenium/hub
     networks:
       - test_net
-    privileged: true
-    shm_size: 2g
     ports:
-      - 4444:4444
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+    environment:
+      GRID_MAX_SESSION: 10
     volumes:
       - /dev/shm:/dev/shm
 
-#  worker:
-#    container_name: worker_container
-#    image: my:latest
-#    networks:
-#      - test_net
-#    entrypoint: ./run.sh
-#    depends_on:
-#      - bla
+  chrome:
+      image: selenium/node-chrome:latest
+      shm_size: 2gb
+      depends_on:
+        - bla
+      networks:
+        - test_net
+      volumes:
+        - /dev/shm:/dev/shm
+      environment:
+        - SE_EVENT_BUS_HOST=bla
+        - SE_EVENT_BUS_PUBLISH_PORT=4442
+        - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+        - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+        - SE_NODE_MAX_SESSIONS=10
+      ports:
+        - "9005:9005"
+
+  worker:
+    container_name: worker_container
+    image: my-image:1
+    networks:
+      - test_net
+    entrypoint:
+      - /tmp/run.sh
+    depends_on:
+      - bla
 
 networks:
   test_net:

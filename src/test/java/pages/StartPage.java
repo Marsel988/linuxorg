@@ -1,6 +1,6 @@
 package pages;
 
-import linuxorg.ConfigSetup;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,6 +12,7 @@ public class StartPage {
 
     public StartPage(WebDriver webDriver) {
         this.webDriver = webDriver;
+        webDriver.get("http://www.linux.org.ru");
         PageFactory.initElements(webDriver, this);
     }
 
@@ -110,6 +111,6 @@ public class StartPage {
     @FindBy(xpath = "//*[@id=\"boxlets\"]/div[3]/div/ul/li[1]/a")
     private WebElement firstArticle;                   // Первая статься в колонке справа
 
-    @FindBy(xpath = "//div[3]/div/div/article[1]/h1/a")
+    @FindBy(xpath = "//*[@id=\"topic-17163962\"]/h1/a")
     private WebElement firstNews;                   // Первая статься в колонке по центру
 }
